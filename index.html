@@ -323,29 +323,181 @@
             height: auto;
         }
 
+        /* Session Controls - Unauffällige Gestaltung */
         .session-controls {
             position: fixed;
-            bottom: 30px;
+            bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
-            background: rgba(30, 41, 59, 0.9);
-            backdrop-filter: blur(20px);
+            backdrop-filter: blur(10px);
             border-radius: 20px;
-            padding: 1rem 2rem;
+            padding: 0.75rem 1.5rem; /* Kompakter */
             display: flex;
-            gap: 2rem;
+            gap: 1.5rem;
             align-items: center;
-            border: 1px solid var(--border);
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            opacity: 0.7; /* Standardmäßig semi-transparent */
+            transition: opacity 0.5s ease, transform 0.3s ease;
+            z-index: 50;
         }
 
+        /* Hover-Effekt für bessere Sichtbarkeit bei Bedarf */
+        .session-controls:hover {
+            opacity: 1;
+            transform: translateX(-50%) translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Auto-Hide nach Inaktivität */
+        .session-controls.auto-hide {
+            opacity: 0.3;
+            transform: translateX(-50%) translateY(10px);
+        }
+
+        .session-controls.auto-hide:hover {
+            opacity: 1;
+            transform: translateX(-50%) translateY(-2px);
+        }
+
+        /* Kompaktere Control-Gruppen */
         .control-group {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
+            gap: 0.3rem; /* Weniger Abstand */
+            margin-bottom: 0;
             text-align: center;
+        }
+
+        .control-label {
+            font-size: 0.7rem; /* Kleinere Schrift */
+            color: rgba(203, 213, 225, 0.8); /* Transparentere Farbe */
+            font-weight: 400;
+        }
+
+        /* Kleinere Toggle-Schalter */
+        .toggle {
+            position: relative;
+            width: 40px; /* Kleiner */
+            height: 20px; /* Kleiner */
+            background: rgba(51, 65, 85, 0.6);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .toggle.active {
+            background: rgba(37, 99, 235, 0.8);
+        }
+
+        .toggle::before {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 16px; /* Angepasst an kleinere Größe */
+            height: 16px; /* Angepasst an kleinere Größe */
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+        }
+
+        .toggle.active::before {
+            transform: translateX(20px); /* Angepasst an kleinere Größe */
+        }
+
+        /* Kompakterer Flash-Button */
+        .manual-flash-btn {
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.8), rgba(8, 145, 178, 0.8));
+            border: none;
+            color: rgba(255, 255, 255, 0.9);
+            padding: 0.6rem 1.2rem; /* Kleiner */
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            font-size: 0.9rem; /* Kleinere Schrift */
+        }
+
+        .manual-flash-btn:hover {
+            transform: translateY(-1px);
+            background: linear-gradient(135deg, rgba(6, 182, 212, 1), rgba(8, 145, 178, 1));
+            box-shadow: 0 5px 15px rgba(6, 182, 212, 0.3);
+        }
+
+        .favicon-notice {
+            position: fixed;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: block;
+            margin-top: 1rem;
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+        }
+
+        /* Mobile Anpassungen für iPhone 7 und ähnliche */
+        @media (max-width: 768px) {
+            .session-controls {
+                bottom: 15px;
+                padding: 0.5rem 1rem;
+                gap: 1rem;
+                opacity: 0.6; /* Noch transparenter auf Mobile */
+                border-radius: 15px;
+            }
+            
+            .session-controls:hover {
+                opacity: 0.9; /* Weniger opak auf Mobile */
+            }
+            
+            .session-controls.auto-hide {
+                opacity: 0.2;
+                transform: translateX(-50%) translateY(15px);
+            }
+            
+            .control-label {
+                font-size: 0.65rem;
+            }
+            
+            .toggle {
+                width: 35px;
+                height: 18px;
+            }
+            
+            .toggle::before {
+                width: 14px;
+                height: 14px;
+            }
+            
+            .toggle.active::before {
+                transform: translateX(17px);
+            }
+            
+            .manual-flash-btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.8rem;
+            }
+        }
+
+        /* Sehr kleine Screens (iPhone SE, etc.) */
+        @media (max-width: 375px) {
+            .session-controls {
+                flex-direction: row;
+                padding: 0.4rem 0.8rem;
+                gap: 0.8rem;
+                opacity: 0.5;
+            }
+            
+            .session-controls.auto-hide {
+                opacity: 0.15;
+            }
+            
+            .control-group {
+                gap: 0.2rem;
+            }
+            
+            .control-label {
+                font-size: 0.6rem;
+            }
         }
 
         .control-label {
@@ -448,7 +600,8 @@
             }
             
             .session-controls {
-                flex-direction: column;
+                flex-direction: row;
+                justify-content: center;
                 gap: 1rem;
                 padding: 1rem;
                 width: 90%;
@@ -465,6 +618,12 @@
             }
         }
     </style>
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="Flash-Therapy" />
+    <link rel="manifest" href="/site.webmanifest" />
 </head>
 <body>
     <div class="settings-toggle" id="settingsToggle">⚙️</div>
@@ -526,6 +685,7 @@
             <h1 class="title" data-i18n="title">Flash Therapy</h1>
             <p class="subtitle" data-i18n="subtitle">Erleben Sie beruhigende Flash-Sessions für Ihr Wohlbefinden</p>
             <button class="start-button" id="startButton" data-i18n="startButton">Session starten</button>
+            <span class="favicon-notice"><a target="_blank" href="https://icons8.com/icon/JR11NdH6pfz8/heart-with-pulse">Favicon (Browsericon) - Herz mit Puls</a> Icon von <a target="_blank" href="https://icons8.com">Icons8</a></span>
         </div>
     </div>
 
